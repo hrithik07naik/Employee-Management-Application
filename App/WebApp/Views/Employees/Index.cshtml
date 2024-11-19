@@ -1,0 +1,99 @@
+﻿@model IEnumerable<WebApp.Models.Employee>
+
+@{
+    ViewData["Title"] = "Emp Details";
+}
+
+<style>
+
+    a.addButton {
+        padding: 1px 6px;
+        border: 1px outset buttonborder;
+        border-radius: 3px;
+        color: buttontext;
+        background-color: palegreen;
+        text-decoration: none;
+    }
+
+    a.editButton {
+        padding: 1px 6px;
+        border: 1px outset buttonborder;
+        border-radius: 3px;
+        color: buttontext;
+        background-color: wheat;
+        text-decoration: none;
+    }
+
+    a.detailsButton {
+        padding: 1px 6px;
+        border: 1px outset buttonborder;
+        border-radius: 3px;
+        color: buttontext;
+        background-color: cornflowerblue;
+        text-decoration: none;
+    }
+
+    a.deleteButton {
+        padding: 1px 6px;
+        border: 1px outset buttonborder;
+        border-radius: 3px;
+        color: buttontext;
+        background-color: orangered;
+        text-decoration: none;
+    }
+</style>
+<h2>Employee Details</h2>
+<br />
+
+<p>
+    <a asp-action="Create" class="addButton">Add employee</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fullname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="editButton">Edit</a>
+     <a asp-action="Details" asp-route-id="@item.Id" class="detailsButton">Details</a>
+                    <color ><a asp-action="Delete" asp-route-id="@item.Id" class="deleteButton">Delete</a></color>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
