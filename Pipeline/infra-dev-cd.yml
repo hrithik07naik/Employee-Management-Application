@@ -1,0 +1,29 @@
+pool: 
+  name: Azure Pipelines                                                                                                             steps: 
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
+  displayName: 'Install Terraform latest'                                           steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+  displayName: 'Terraform : azurerm'
+  inputs:
+    backendAzureRmUseEnvironmentVariablesForAuthentication: false
+    backendAzureRmUseEntraIdForAuthentication: false
+    backendServiceArm: 'Free Trial (d963f3ad-ec41-4ebc-ac0f-aca54afa2e11)'
+    backendAzureRmResourceGroupName: hrithik
+    backendAzureRmStorageAccountName: terraformci123
+    backendAzureRmContainerName: tfstate
+    backendAzureRmKey: dev.terraform.tfstate                                                                        steps:
+- task: DownloadBuildArtifacts@1
+  displayName: 'Download Build Artifacts'
+  inputs:
+    artifactName: 'terraform-config'
+    extractTars: false
+       steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+  displayName: 'Terraform : azurerm'
+  inputs:
+    command: apply
+    workingDirectory: '$(System.DefaultWorkingDirectory)/_3-tier-application3-CI/terraform-config'
+    commandOptions: '--auto-approve --var-file./dev.tfvars'
+    environmentServiceNameAzureRM: 'Free Trial (d963f3ad-ec41-4ebc-ac0f-aca54afa2e11)'
+    backendAzureRmUseEnvironmentVariablesForAuthentication: false
+    backendAzureRmUseEntraIdForAuthentication: false

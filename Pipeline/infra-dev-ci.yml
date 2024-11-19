@@ -1,0 +1,33 @@
+pool: 
+  name: Azure Pipelines
+steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
+  displayName: 'Install Terraform latest'
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+  displayName: 'Terraform : azurerm'
+  inputs:
+    workingDirectory: 'terraform_sql'
+    backendAzureRmUseEnvironmentVariablesForAuthentication: false
+    backendAzureRmUseEntraIdForAuthentication: false
+    backendServiceArm: 'Free Trial (d963f3ad-ec41-4ebc-ac0f-aca54afa2e11)'
+    backendAzureRmResourceGroupName: hrithik
+    backendAzureRmStorageAccountName: terraformci123
+    backendAzureRmContainerName: tfstate
+    backendAzureRmKey: terraform.tfstate
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+  displayName: 'Terraform : azurerm'
+  inputs:
+    command: plan
+    workingDirectory: 'terraform_sql'
+    commandOptions: '-var-file=./dev.tfvars '
+    environmentServiceNameAzureRM: 'Free Trial (d963f3ad-ec41-4ebc-ac0f-aca54afa2e11)'
+    backendAzureRmUseEnvironmentVariablesForAuthentication: false
+    backendAzureRmUseEntraIdForAuthentication: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: 'terraform_sql'
+    ArtifactName: 'terraform-config'    

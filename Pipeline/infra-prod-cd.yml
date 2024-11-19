@@ -1,0 +1,25 @@
+pool:
+  name: Azure Pipelines
+
+steps:
+  # Install Terraform
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
+    displayName: 'Install Terraform latest'
+
+  # Download Terraform Configuration Artifacts
+  - task: DownloadBuildArtifacts@1
+    displayName: 'Download Terraform Configurations'
+    inputs:
+      artifactName: 'terraform-config-prod'
+      extractTars: false
+
+  # Terraform Apply - Production
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+    displayName: 'Terraform Apply - Production'
+    inputs:
+      command: apply
+      workingDirectory: '$(System.DefaultWorkingDirectory)/_3-tier-application3-CI/terraform-config-prod'
+      commandOptions: '--auto-approve --var-file=./prod.tfvars'
+      environmentServiceNameAzureRM: 'Free Trial (d963f3ad-ec41-4ebc-ac0f-aca54afa2e11)'
+      backendAzureRmUseEnvironmentVariablesForAuthentication: false
+      backendAzureRmUseEntraIdForAuthentication: false

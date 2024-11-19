@@ -1,0 +1,28 @@
+trigger: none  # Triggered manually or after CI pipeline completion.
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  webAppName: 'YourDevWebAppName'
+  resourceGroup: 'YourResourceGroupName'
+
+stages:
+- stage: Deploy
+  displayName: Deploy to Development
+  jobs:
+  - job: DeployToDev
+    displayName: Deploy to Azure Web App (Development)
+    steps:
+    - task: DownloadBuildArtifacts@1
+      displayName: Download Build Artifacts
+      inputs:
+        artifactName: 'drop'
+
+    - task: AzureWebApp@1
+      displayName: Deploy to Azure Web App
+      inputs:
+        azureSubscription: 'YourAzureServiceConnection'
+        appType: 'webApp'
+        appName: '$(webAppName)'
+        package: '$(System.DefaultWorkingDirectory)/drop'

@@ -1,0 +1,40 @@
+trigger: none  # Triggered manually or after CI pipeline completion.
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  webAppName: 'YourProdWebAppName'
+  resourceGroup: 'YourResourceGroupName'
+
+stages:
+- stage: PreApproval
+  displayName: Pre-Deployment Approval
+  jobs:
+  - job: ManualApproval
+    displayName: Wait for Approval
+    steps:
+    - task: ManualValidation@0
+      inputs:
+        instructions: 'Approve deployment to Production.'
+
+- stage: Deploy
+  displayName: Deploy to Production
+  dependsOn: PreApproval
+  condition: succeeded()
+  jobs:
+  - job: DeployToProd
+    displayName: Deploy to Azure Web App (Production)
+    steps:
+    - task: DownloadBuildArtifacts@1
+      displayName: Download Build Artifacts
+      inputs:
+        artifactName: 'drop'
+
+    - task: AzureWebApp@1
+      displayName: Deploy to Azure Web App
+      inputs:
+        azureSubscription: 'YourAzureServiceConnection'
+        appType: 'webApp'
+        appName: '$(webAppName)'
+        package: '$(System.DefaultWorkingDirectory)/drop'

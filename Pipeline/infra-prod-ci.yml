@@ -1,0 +1,38 @@
+pool:
+  name: Azure Pipelines
+
+steps:
+  # Install Terraform
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
+    displayName: 'Install Terraform latest'
+
+  # Terraform Init - Production
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+    displayName: 'Terraform Init - Production'
+    inputs:
+      workingDirectory: 'terraform_sql'
+      backendAzureRmUseEnvironmentVariablesForAuthentication: false
+      backendAzureRmUseEntraIdForAuthentication: false
+      backendServiceArm: 'Free Trial (d963f3ad-ec41-4ebc-ac0f-aca54afa2e11)'
+      backendAzureRmResourceGroupName: hrithik-prod
+      backendAzureRmStorageAccountName: terraformprod123
+      backendAzureRmContainerName: tfstate
+      backendAzureRmKey: prod.terraform.tfstate
+
+  # Terraform Plan - Production
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+    displayName: 'Terraform Plan - Production'
+    inputs:
+      command: plan
+      workingDirectory: 'terraform_sql'
+      commandOptions: '-var-file=./prod.tfvars'
+      environmentServiceNameAzureRM: 'Free Trial (d963f3ad-ec41-4ebc-ac0f-aca54afa2e11)'
+      backendAzureRmUseEnvironmentVariablesForAuthentication: false
+      backendAzureRmUseEntraIdForAuthentication: false
+
+  # Publish Terraform Artifacts
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Terraform Configurations'
+    inputs:
+      PathtoPublish: 'terraform_sql'
+      ArtifactName: 'terraform-config-prod'
