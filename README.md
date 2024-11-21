@@ -1,20 +1,42 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+Employee Management Application
+🚀 Project Overview
+The Employee Management Application is a scalable and maintainable solution built using a 3-tier architecture. It separates the application into three distinct layers:
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Presentation Layer: For user interaction.
+Business Logic Layer: To handle core application logic.
+Data Layer: For database interactions.
+This architecture enhances scalability, maintainability, and ease of testing.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Key Features
+Full CRUD functionality to manage employee records:
+Create, Read, Update, and Delete employee details.
+Fully automated deployment process using CI/CD pipelines.
+Separate environments for Development and Production deployments.
+Production deployments include approval mechanisms to ensure quality and security.
+🛠️ Technology Stack
+Backend: .NET 8
+Infrastructure as Code (IaC):
+ARM Templates
+Terraform
+CI/CD Pipelines:
+Classic Pipelines
+YAML Pipelines
+Deployment Target: Azure App Service
+Deployment Details
+CI/CD Pipelines
+CI Pipeline:
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+Builds the application.
+Runs unit tests.
+Publishes build artifacts.
+CD Pipelines:
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+Development Environment:
+Deploys the application to the development environment using Terraform and ARM templates.
+Production Environment:
+Includes an approval gate before deploying to the production environment.
+⚙️ Prerequisites
+Azure Subscription
+Azure DevOps Account
+Terraform Installed
+Access to Azure App Service and Azure Resource Manager
