@@ -40,3 +40,24 @@ Azure Subscription
 Azure DevOps Account
 Terraform Installed
 Access to Azure App Service and Azure Resource Manager
+
+ Getting Started
+ Clone the Repository:
+ git clone https://github.com/<your-username>/employee-management.git
+ cd employee-management
+
+ Set Up the Infrastructure:
+ Navigate to the terraform/ folder
+ cd terraform
+
+ Run the following commands:
+ terraform init
+ terraform plan -var-file=dev.tfvars
+ terraform apply -var-file=dev.tfvars
+
+ Deploy the Application
+  Trigger the CI/CD pipelines in Azure DevOps.
+  
+
+ 
+ 
